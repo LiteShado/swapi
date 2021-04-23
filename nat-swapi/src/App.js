@@ -4,44 +4,49 @@ import { useState } from 'react'
 import axios from 'axios'
 import './App.css'
 import env from "react-dotenv";
+import BrowserRouter from 'react-router-dom'
 import StarshipPage from './component/StarshipPage'
 import Starship from './component/Starship';
+import { Route } from 'react-dom'
 
 
 function App() {
-  const [allStarship, setAllStarship] = useState([])
-  const [starship, setStarship] = useState('')
-  const [filteredStar, setFilteredStar] = useState([])
+const [ships, setShips] = useState([])
 
-  const getStar = () => {
-    axios.get(`${env.BACKEND_URL}/starships`)
-    .then((response) => {
-      setAllStarship(response.data.starship)
-    })
-  }
 
-  useEffect(getStar, [])
+const ships = axios.get('https://www.swapi.tech/api/starships').then((response) => {
+    setShips(response.data.results)
+  })
 
-  const filterStar = () => {
-    const result = allStarship.filter((t) => {
-      return t.description.includes(starship)
-    })
-    setFilteredStar(result)
-  }
-  useEffect(filterStar, [starship, allStarship])
-  // useEffect(filterTodos, [allTodos])
+  .catch((error) => {
+    console.log(error)
+  })
 
-    return (
+  useEffect(fetchShips, [])
 
-      <div class="container">
-        <StarshipPage starship={starship}
-        setStarShip={setStarship}/>
-        <Starship allStarship={filteredStar}
-        getStar={getStar}/>
-      </div>
+  return (
+    <div>
+      <Route
+        path="/"
+        exact
+        render={() => {
+        return <Starship ships={ships}/>
+        }}
+        />
+      <Route
+        path="/ships/:id"
+        render={(routing) => {
+          console.log(routing);
+            return <StarshipPage id={routing.match.params.id} />
 
-    );
+        }}
+      />
+      <StarshipPage />
+    </div>
+  )
 }
+
+
 
 
 export default App

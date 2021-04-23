@@ -19,10 +19,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-},
-"react-dotenv": {
-    "whitelist": ["BACKEND_URL"]
-
+  },
+  "react-dotenv": {
+    "whitelist": [
+      "BACKEND_URL"
+    ]
   },
   "eslintConfig": {
     "extends": [

@@ -1,27 +1,28 @@
-import axios from 'axios'
-import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 const Starship = (props) => {
     return (
-        <ul>
-            {props.allStarship.map((starship, i) => {
-            return <li key={starship.id}>{starship.description}
-            {starship.completed ?
-            <span> DONE! </span>
+    {props.ships.length > 0 ?
+        <div>
+            {props.ships.map(ship) => {
 
-            :
 
-            <button onClick={() => {
-                axios.put(`${env.BACKEND_URL}/todos/${starship.id}`, {
-                completed: true })
-                .then(() => { props.fetchTodos() })
-                }}
-            > Next Starship</button>
-            }
-            </li>
-            })}
-        </ul>
+:
+
+}
+
+
+                return (
+                    <li key={ship.uid}>
+                        <Link to={`/ships/${ship.uid}`}>
+                        {ship.name}
+                        </Link>
+                    </li>
+                )
+            }}}
+
+        </div>
     )
 }
 
